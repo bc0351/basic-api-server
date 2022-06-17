@@ -1,22 +1,13 @@
 'use strict';
 
 const { Sequelize, DataTypes } = require('sequelize');
-const animalsSchema = require('./animals.schema');
+const animalsSchema = require('../collections/animals.schema');
 
-// if password necessary:  postgres://user:password@localhost:5432/401d46-api-app
-// ternary:  WTF
 const DATABASE_URL = process.env.NODE_ENV === 'test' 
   ? 'sqlite::memory'
-  : process.env.DATABASE_URL || 'postgres://localhost:5432/401d47-basic-api-app';
+  : process.env.DATABASE_URL || 'postgres://localhost:5432/code401d47-basic-api-app';
 
-const sequelize = new Sequelize(DATABASE_URL, {
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    }
-  }
-}); 
+const sequelize = new Sequelize(DATABASE_URL); 
 
 const AnimalsModel = animalsSchema(sequelize, DataTypes);
 
