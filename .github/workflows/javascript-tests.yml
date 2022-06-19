@@ -4,7 +4,7 @@ on: [push]
 
 env:
   NODE_ENV: production
-    url: postgres://lxylucwhxxqihb:cc46e14fd0d75fc367ab12638ef140dd34b40e516d28362144cc6a994cc7e688@ec2-52-206-182-219.compute-1.amazonaws.com:5432/dbem80ln2vujh0
+    url: 'postgres://lxylucwhxxqihb:cc46e14fd0d75fc367ab12638ef140dd34b40e516d28362144cc6a994cc7e688@ec2-52-206-182-219.compute-1.amazonaws.com:5432/dbem80ln2vujh0'
     dialect: postgres
     dialectOptions:
       ssl:
