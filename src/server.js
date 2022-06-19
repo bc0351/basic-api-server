@@ -1,6 +1,5 @@
 'use strict';
 const express = require('express');
-const Sequelize = require('../database/models/index');
 const clientRouter = require('./routes/client-routes')
 
 const app = express();

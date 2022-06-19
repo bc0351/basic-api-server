@@ -8,6 +8,12 @@ const env = process.env.NODE_ENV || 'development';
 const config = envConfigs[env];
 const db = {};
 
+const clientSchema = require('./client');
+const orderSchema = require('./order');
+const executionSchema = require('./execution');
+const allocationSchema = require('./allocation');
+const confirmationSchema = require('./confirmation');
+
 let sequelize;
 if (config.url) {
   sequelize = new Sequelize(config.url, config);
@@ -21,21 +27,29 @@ fs
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
   .forEach(file => {
-    // const model = sequelize['import'](path.join(__dirname, file));
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
 Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+  if (db[modelName].associate) db[modelName].associate(db);
 });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+const ClientModel = clientSchema(sequelize, Sequelize.DataTypes);
+const OrderModel = orderSchema(sequelize, Sequelize.DataTypes);
+const ExecutionModel = executionSchema(sequelize, Sequelize.DataTypes);
+const AllocationModel = allocationSchema(sequelize, Sequelize.DataTypes);
+const ConfirmationModel = confirmationSchema(sequelize, Sequelize.DataTypes);
+
 module.exports = {
   sequelize: db.sequelize,
-  Sequelize: db.Sequelize
+  Sequelize: db.Sequelize,
+  ClientModel,
+  OrderModel,
+  ExecutionModel,
+  AllocationModel,
+  ConfirmationModel
 }

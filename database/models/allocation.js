@@ -1,23 +1,6 @@
 'use strict';
-const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
 module.exports = (sequelize, DataTypes) => {
-  class Allocation extends Model {
-    static associate(models) {
-      // define association here
-      Allocation.hasOne(models.Confirmation, {
-        foreignKey: 'confirmation_id',
-        as: 'confirmations',
-        onDelete: 'CASCADE'
-      });
-      Allocation.belongsTo(models.Execution, {
-        foreignKey: 'execution_id',
-        as: 'executions',
-        onDelete: 'CASCADE'
-      })
-    }
-  }
-  Allocation.init({
+  const Allocation = sequelize.define('Allocation', {
     allocation_id: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -36,10 +19,20 @@ module.exports = (sequelize, DataTypes) => {
     execution_id: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-  }, {
-    sequelize,
-    modelName: 'Allocation',
-  });
+    }
+  }, {});
+  Allocation.associate = function(models) {
+  // define association here
+      Allocation.hasOne(models.Confirmation, {
+        foreignKey: 'confirmation_id',
+        as: 'confirmation',
+        onDelete: 'CASCADE'
+      });
+      Allocation.belongsTo(models.Execution, {
+        foreignKey: 'execution_id',
+        as: 'execution',
+        onDelete: 'CASCADE'
+      });
+    };
   return Allocation;
 };
