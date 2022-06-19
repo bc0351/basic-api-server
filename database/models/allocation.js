@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 module.exports = (sequelize, DataTypes) => {
   class Allocation extends Model {
     static associate(models) {
@@ -11,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'confirmations',
         onDelete: 'CASCADE'
       });
-      Allocation.belongsToMany(models.Execution, {
+      Allocation.belongsTo(models.Execution, {
         foreignKey: 'execution_id',
         as: 'executions',
         onDelete: 'CASCADE'
@@ -20,13 +19,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Allocation.init({
     allocation_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     shares: DataTypes.INTEGER,
     amount: DataTypes.FLOAT,
     client_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     client_name: DataTypes.STRING,
@@ -35,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     trade_date: DataTypes.DATE,
     settle_date: DataTypes.DATE,
     execution_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
   }, {

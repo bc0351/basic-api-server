@@ -1,30 +1,30 @@
 'use strict';
 
-const { Model, Sequelize } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Client extends Model {
     static associate(models) {
       // define association here
-      User.hasMany(models.Orders, {
-        foreignKey: client_id,
+      Client.hasMany(models.Order, {
+        foreignKey: 'client_id',
         as: 'orders',
         onDelete: 'CASCADE',
       });
-      User.hasMany(models.Allocations, {
-        foreignKey: client_id,
+      Client.hasMany(models.Allocation, {
+        foreignKey: 'client_id',
         as: 'allocations',
         onDelete: 'CASCADE'
       });
-      User.hasMany(models.Confirmations, {
-        foreignKey: client_id,
+      Client.hasMany(models.Confirmation, {
+        foreignKey: 'client_id',
         as: 'confirmations',
         onDelete: 'CASCADE'
       });
     }
   }
-  User.init({
+  Client.init({
     client_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     client_name: DataTypes.STRING,
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     account: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Client',
   });
-  return User;
+  return Client;
 };

@@ -1,15 +1,12 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-const { Sequelize } = require('.');
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 module.exports = (sequelize, DataTypes) => {
   class Confirmation extends Model {
     static associate(models) {
       // define association here
-      Confirmation.belongsTo(models.User, {
+      Confirmation.belongsTo(models.Client, {
         foreignKey: 'client_id',
-        as: 'user',
+        as: 'client',
         onDelete: 'CASCADE'
       });
       Confirmation.belongsTo(models.Allocation, {
@@ -21,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Confirmation.init({
     confirmation_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     shares: DataTypes.INTEGER,
@@ -31,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     trade_date: DataTypes.DATE,
     settle_date: DataTypes.DATE,
     client_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     client_name: DataTypes.STRING,

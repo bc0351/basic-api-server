@@ -2,7 +2,7 @@
 
 const supertest = require('supertest');
 const { server } = require('../src/server');
-const { sequelize } = require('../collections');
+const { sequelize } = require('../database/models/index');
 const mockRequest = supertest(server);
 
 beforeAll(async () => {
@@ -15,32 +15,34 @@ afterAll(async () => {
 });
 
 describe('Testing REST API', () => {
-
-  test('Create an animal', async () => {
-    const response = await mockRequest.post('/animals').send({
-      name: 'fido',
-      species: 'dog',
-      gender: 'male',
-    });
+  let mockClient = {
+    client_id: 2139846,
+    client_name: 'John Wayne',
+    email: 'john@wayne.com',
+    account: '329854132'
+  };
+  test('Create a Client', async () => {
+    const response = await mockRequest.post('/clients').send( {mockClient} );
 
     expect(response.status).toEqual(200);
-    expect(response.body.name).toEqual('fido');
-    expect(response.body.species).toEqual('dog');
-    expect(response.body.gender).toEqual('male');
+    expect(response.body.client_id).toEqual(2139846);
+    expect(response.body.client_name).toEqual('John Wayne');
+    expect(response.body.email).toEqual('john@wayne.com');
+    expect(response.body.account).toEqual('329854132');
   });
 
-  test('Should read from animals', async () => {
-    const response = await mockRequest.read('/animals').read({
+  test('Should read from clients', async () => {
+    const response = await mockRequest.read('/clients').read({
 
     })
     expect(response.status).toEqual(200);
   });
 
-  test('Should update an animal', () => {
+  test('Should update a client', () => {
     expect(true).toBe(true);
   });
 
-  test('Should delete an animal', () => {
+  test('Should delete a client', () => {
     expect(true).toBe(true);
   });
 });
