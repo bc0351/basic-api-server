@@ -1,32 +1,14 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Allocation extends Model {
-    static associate(models) {
-      // define association here
-      Allocation.hasOne(models.Confirmation, {
-        foreignKey: 'confirmation_id',
-        as: 'confirmations',
-        onDelete: 'CASCADE'
-      });
-      Allocation.belongsToMany(models.Execution, {
-        foreignKey: 'execution_id',
-        as: 'executions',
-        onDelete: 'CASCADE'
-      })
-    }
-  }
-  Allocation.init({
+  const Allocation = sequelize.define('Allocation', {
     allocation_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     shares: DataTypes.INTEGER,
     amount: DataTypes.FLOAT,
     client_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     client_name: DataTypes.STRING,
@@ -35,12 +17,22 @@ module.exports = (sequelize, DataTypes) => {
     trade_date: DataTypes.DATE,
     settle_date: DataTypes.DATE,
     execution_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
-    },
-  }, {
-    sequelize,
-    modelName: 'Allocation',
-  });
+    }
+  }, {});
+  Allocation.associate = function(models) {
+  // define association here
+      Allocation.hasOne(models.Confirmation, {
+        foreignKey: 'confirmation_id',
+        as: 'confirmation',
+        onDelete: 'CASCADE'
+      });
+      Allocation.belongsTo(models.Execution, {
+        foreignKey: 'execution_id',
+        as: 'execution',
+        onDelete: 'CASCADE'
+      });
+    };
   return Allocation;
 };

@@ -1,13 +1,12 @@
 'use strict';
 const express = require('express');
-const Sequelize = require('../database/models/index');
-const animalsRouter = require('./routes/animals');
+const clientRouter = require('./routes/client-routes')
 
 const app = express();
 const PORT = process.env.PORT || 3002;
 
 app.use(express.json());
-app.use(animalsRouter);
+app.use(clientRouter);
 
 module.exports = {
   server: app,

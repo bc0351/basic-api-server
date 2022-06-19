@@ -1,24 +1,8 @@
 'use strict';
-const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Execution extends Model {
-    static associate(models) {
-      // define association here
-      Execution.hasMany(models.Allocation, {
-        foreignKey: 'allocation_id',
-        as: 'allocations',
-        onDelete: 'CASCADE'
-      });
-      Execution.belongsToMany(models.Order, {
-        foreignKey: 'order_id',
-        as: 'order',
-        onDelete: 'CASCADE',
-      })
-    }
-  }
-  Execution.init({
+  const Execution = sequelize.define('Execution', {
     execution_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     trade_date: DataTypes.DATE,
@@ -28,12 +12,22 @@ module.exports = (sequelize, DataTypes) => {
     settle_amount: DataTypes.FLOAT,
     commission: DataTypes.FLOAT,
     order_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-  }, {
-    sequelize,
-    modelName: 'Execution',
-  });
+  }, {});
+  Execution.associate = function (models) {
+    // define association here
+    Execution.hasMany(models.Allocation, {
+      foreignKey: 'allocation_id',
+      as: 'allocation',
+      onDelete: 'CASCADE'
+    });
+    Execution.belongsTo(models.Order, {
+      foreignKey: 'order_id',
+      as: 'order',
+      onDelete: 'CASCADE',
+    })
+  }
   return Execution;
 };
