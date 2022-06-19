@@ -1,11 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const envConfigs =  require('../config/config');
+const envConfigs = require('../config/config');
 
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = envConfigs[env];
+// const env = process.env.NODE_ENV || 'development';
+// const config = envConfigs[env];
 const db = {};
 
 const clientSchema = require('./client');
@@ -13,6 +13,18 @@ const orderSchema = require('./order');
 const executionSchema = require('./execution');
 const allocationSchema = require('./allocation');
 const confirmationSchema = require('./confirmation');
+
+const config =
+{
+  url: process.env.DATABASE_URL || 'postgres://lxylucwhxxqihb:cc46e14fd0d75fc367ab12638ef140dd34b40e516d28362144cc6a994cc7e688@ec2-52-206-182-219.compute-1.amazonaws.com:5432/dbem80ln2vujh0',
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    }
+  }
+}
 
 let sequelize;
 if (config.url) {
