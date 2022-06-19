@@ -7,8 +7,9 @@ const router = express.Router();
 router.post('/animals', async (req, res, next) => {
   let animal = req.body;
   console.log(req.body);
-  let response = await AnimalsModel.create(animal);
-  res.status(200).send(response);
+  await AnimalsModel.create(animal)
+    .then(response => res.status(200).send(response))
+    .catch(error => res.status(500).send(error));
 });
 
 router.get('/animals', async (req, res, next) => {

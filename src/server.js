@@ -1,8 +1,6 @@
 'use strict';
 const express = require('express');
-const Sequelize = require('sequelize');
-const errorHandler = require('./error-handlers/500');
-const notFoundHanlder = require('./error-handlers/404');
+const Sequelize = require('../database/models/index');
 const animalsRouter = require('./routes/animals');
 
 const app = express();
