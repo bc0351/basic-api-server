@@ -3,8 +3,6 @@ require('dotenv').config()
 module.exports = {
   development: {
     url: process.env.DEV_DATABASE_URL,
-    username: 'root',
-    password: 'rootroot',
     database: 'dev_db',
     host: '127.0.0.1',
     port: '5432',
@@ -12,8 +10,6 @@ module.exports = {
   },
   test: {
     url: process.env.TEST_DATABASE_URL,
-    username: 'root',
-    password: 'rootroot',
     database: 'test_db',
     host: '127.0.0.1',
     port: '5432',
